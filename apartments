@@ -1,0 +1,76 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+using namespace std;
+
+class Apartment
+{
+private:
+	int nrooms;
+	int price;
+
+public:
+	int num;
+	float awer;
+
+	Apartment()
+	{
+		cout << ".ctor                                      +" << endl;
+		num = rand() % 9000 + 1000;
+		nrooms = rand() % 5 + 1;
+		price = rand() % 900000 + 100000;
+		awer = AWER_PRICE1();
+		print1();
+	}
+
+	float AWER_PRICE1()
+	{
+		return (float) price / nrooms;
+	}
+
+	void print1()
+	{
+		cout << "-------------------------------------" << endl;
+		cout << "Apartament number: " << num << endl;
+		cout << "Rooms: " << nrooms << endl;
+		cout << "Price: " << price << "$" << endl;
+		cout << "Awerege price for one room: " << AWER_PRICE1() << "$" << endl;
+		cout << "-------------------------------------\n" << endl;
+	}
+
+	~Apartment()
+	{
+		cout << ".dtor                                      -" << endl;
+	}
+};
+
+
+int main()
+{
+	int filter, n, i;
+
+	cout << "Enter number of apartments" << endl;
+	cin >> n;
+	Apartment * A;
+	A = new Apartment[n];
+
+	printf("\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
+	cout << "Filter\nMax awerage price = "; 
+	cin >> filter;
+	printf("\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n");
+	
+	for (i = 0; i < n; i++)
+	{
+		if (filter > A[i].AWER_PRICE1())
+		{
+			 A[i].print1();
+		}
+		A[i].~Apartment();
+	}
+	
+	//delete [n] A;
+
+	printf("Program is over!\n");
+	system("pause");
+	return 0;
+}
