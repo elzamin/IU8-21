@@ -1,0 +1,60 @@
+#include <iostream>
+#include <string>
+#include <cmath>
+using namespace std;
+
+Complex operator+(const Complex &a, const Complex &b)
+{
+	Complex c(a);
+	c += b;
+	return c;
+}
+
+Complex operator-(const Complex &a, const Complex &b)
+{
+	Complex c(a);
+	c = a - b;
+	return c;
+}
+
+Complex operator*(const Complex &a, const Complex &b)
+{
+	Complex c(a);
+	c = a*b;
+	return c;
+}
+
+Complex operator/(const Complex &a, const Complex &b)
+{
+	Complex c(a);
+	c = a / b;
+	return c;
+}
+
+class Complex
+{
+	double _r, _i;
+public:
+	Complex(double a = 0, double b = 0)
+		:_r(a), _i(b)
+	{
+		cout << "ctor." << endl;
+	}
+
+	void print()
+	{
+		cout << _r << "+" << _i << "i" << endl;
+	}
+
+	Complex & operator +=(const Complex &a)
+	{
+		_r += a._r;
+		_r += a._i;
+		return *this;
+	}
+
+	~Complex()
+	{
+		cout << "dtor." << endl;
+	}
+};
