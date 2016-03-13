@@ -7,32 +7,25 @@ private:
 	double re_, im_;
 
 public:
+	Complex() {}
 	Complex (double r = 0.0, double i = 0.0) 
 	: re_(r), im_(i) 
 	{ 
 		printf(".ctor"); 
 	}
-	void copy (Complex &c)
+	void copy (Complex &a, Complex &b)
 	{
-		re_ = c.re_;
-		im_ = c.im_;
+		a.re_ = b.re_;
+		a.im_ = b.im_;
 	}
-	void set (double a, double b)
+	void set(double a, double b, Complex &c)
 	{
-		re_ = a ;
-		im_ = b;
-	}
-	double re (Complex &c)
-	{
-		return c.re_;
-	}
-	double im (Complex &c)
-	{
-		return c.im_;
+		c.re_ = a ;
+		c.im_ = b;
 	}
 	Complex summ (Complex &a, Complex &b)
 	{
-		Complex c;
+		Complex c(0 , 0);
 		double re, im;
 		re = a.re_ + b.re_;
 		im = a.im_ + b.im_;
@@ -42,7 +35,7 @@ public:
 	}
 	Complex sub (Complex &a, Complex &b)
 	{
-		Complex c;
+		Complex c(0 , 0);
 		double re, im;
 		re = a.re_ - b.re_;
 		im = a.im_ - b.im_;
@@ -52,7 +45,7 @@ public:
 	}
 	Complex div (Complex &a, Complex &b)
 	{
-		Complex c;
+		Complex c(0, 0);
 		double re, im;
 		re = (a.re_ * b.re_ - a.im_ * b.im_) / (b.re_ * b.re_ + b.im_ * b.im_);
 		im = (a.im_ * b.re_ - a.re_ * b.im_) / (b.re_ * b.re_ + b.im_ * b.im_);
@@ -62,10 +55,10 @@ public:
 	}
 	Complex mul (Complex &a, Complex &b)
 	{
-		Complex c;
+		Complex c(0, 0);
 		double re, im;
-		re = a.re * b.re - a.im_ * b.im_;
-		im = a.re * b.im_ + a.im_ * b.re_;
+		re = a.re_ * b.re_ - a.im_ * b.im_;
+		im = a.re_ * b.im_ + a.im_ * b.re_;
 		c.re_ = re;
 		c.im_ = im;
 		return c;
