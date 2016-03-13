@@ -11,7 +11,7 @@ public:
 	Complex (double r = 0.0, double i = 0.0) 
 	: re_(r), im_(i) 
 	{ 
-		printf(".ctor"); 
+		std::cout << ".ctor" << std::endl; 
 	}
 	void copy (Complex &a, Complex &b)
 	{
@@ -71,6 +71,6 @@ public:
 	}
 	~Complex() 
 	{ 
-		printf(".dtor"); 
+		std::cout << ".dtor" << std::endl;
 	}
 };
