@@ -1,0 +1,83 @@
+#include <iostream>
+#include <math.h>
+
+class Complex
+{
+private:
+	double re_, im_;
+
+public:
+	Complex (double r = 0.0, double i = 0.0) 
+	: re_(r), im_(i) 
+	{ 
+		printf(".ctor"); 
+	}
+	void copy (Complex &c)
+	{
+		re_ = c.re_;
+		im_ = c.im_;
+	}
+	void set (double a, double b)
+	{
+		re_ = a ;
+		im_ = b;
+	}
+	double re (Complex &c)
+	{
+		return c.re_;
+	}
+	double im (Complex &c)
+	{
+		return c.im_;
+	}
+	Complex summ (Complex &a, Complex &b)
+	{
+		Complex c;
+		double re, im;
+		re = a.re_ + b.re_;
+		im = a.im_ + b.im_;
+		c.re_ = re;
+		c.im_ = im;
+		return c;
+	}
+	Complex sub (Complex &a, Complex &b)
+	{
+		Complex c;
+		double re, im;
+		re = a.re_ - b.re_;
+		im = a.im_ - b.im_;
+		c.re_ = re;
+		c.im_ = im;
+		return c;
+	}
+	Complex div (Complex &a, Complex &b)
+	{
+		Complex c;
+		double re, im;
+		re = (a.re_ * b.re_ - a.im_ * b.im_) / (b.re_ * b.re_ + b.im_ * b.im_);
+		im = (a.im_ * b.re_ - a.re_ * b.im_) / (b.re_ * b.re_ + b.im_ * b.im_);
+		c.re_ = re;
+		c.im_ = im;
+		return c;
+	}
+	Complex mul (Complex &a, Complex &b)
+	{
+		Complex c;
+		double re, im;
+		re = a.re * b.re - a.im_ * b.im_;
+		im = a.re * b.im_ + a.im_ * b.re_;
+		c.re_ = re;
+		c.im_ = im;
+		return c;
+	}
+	void print (Complex &a)
+	{
+		if (a.im_ < 0)
+			std::cout << a.re_ << a.im_ << "i" << std::endl;
+		else std::cout << a.re_ << "+" << a.im_ << "i" << std::endl;
+	}
+	~Complex() 
+	{ 
+		printf(".dtor"); 
+	}
+};
