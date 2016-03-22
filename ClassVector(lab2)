@@ -1,0 +1,89 @@
+#include <iostream>
+#include <cstdlib>
+
+#define STUDENT_VARIANT 22
+
+class IUVector
+{
+private:
+	int * v_;
+	int n_;
+public:
+	IUVector()
+	{}
+
+	IUVector(int * &a, int b)
+	{
+		v_ = (int *)malloc(b*sizeof(int));
+		for (int i = 0; i < b; i++)
+		{
+			if (a[i] != NULL)
+				v_[i] = a[i];
+			else
+				v_[i] = 0;
+		}
+	}
+
+	IUVector(IUVector &a)
+	{
+		v_ = (int *)malloc(a.n_*sizeof(int));
+		for (int i = 0; i < a.n_; i++)
+		{
+			if (a.v_[i] != NULL)
+				v_[i] = a.v_[i];
+			else
+				v_[i] = 0;
+		}
+	}
+
+	int size()
+	{
+		return n_;
+	}
+
+	~IUVector()
+	{
+		//free(v_);
+	}
+
+	IUVector& operator = (const IUVector&a)
+	{
+		IUVector b;
+		b.n_ = a.n_;
+		for (int i = 0; i < a.n_; i++)
+		{
+			if (a.v_[i] != NULL)
+				b.v_[i] = a.v_[i];
+			else
+				b.v_[i] = 0;
+		}
+		return b;
+	}
+
+	friend void operator << (std::ostream&, IUVector &a)
+	{
+		int i;
+		std::cout << "Vector[ ";
+		for (i = 0; i < (a.n_ - 1); i++)
+			std::cout << a.v_[i] << ", ";
+		std::cout << a.v_[(a.n_ - 1)] << "]" << std::endl;
+	}
+
+	int& operator [](int a)
+	{
+		return this->v_[a];
+	}
+
+	int operator [](int a) const
+	{
+		return this->v_[a];
+	}
+
+	IUVector operator ^(int * a)
+	{
+		IUVector b;
+		for (int i = 0; i < this->n_; i++)
+			b.v_[i] = this->v_[i] ^ a[i];
+		return b;
+	}
+};
