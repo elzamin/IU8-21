@@ -1,0 +1,68 @@
+#include <iostream>
+
+#define STUDENT_VARIANT 22
+
+class Vector
+{
+protected:
+	int p_[3];
+public:
+	Vector()
+	{}
+
+	Vector(int a1, int a2)
+	{
+		p_[0] = a1;
+		p_[1] = a2;
+		p_[2] = 0;
+	}
+
+	friend void operator << (std::ostream&, Vector &a)
+	{
+		int i;
+		std::cout << "Vector[ " << a.p_[0] << ", " << a.p_[1] << "]" << std::endl;
+	}
+
+	~Vector()
+	{};
+};
+
+class Triple : public Vector
+{
+private: 
+	int v_[3];
+public:
+	Triple() : Vector()
+	{}
+
+	Triple(int a1, int a2, int a3) : Vector (a1, a2)
+	{
+		v_[0] = a1;
+		v_[1] = a2;
+		v_[2] = a3;
+	}
+
+	friend void operator << (std::ostream&, Triple &a)
+	{
+		int i;
+		std::cout << "Vector[ ";
+		for (i = 0; i < 2; i++)
+			std::cout << a.v_[i] << ", ";
+		std::cout << a.v_[2] << "]" << std::endl;
+	}
+
+	~Triple()
+	{}
+};
+
+int main()
+{
+	Vector v;
+	v = Vector(1,2);
+	std::cout << v;
+	Triple t;
+	t = Triple(2,3,4);
+	std::cout << t;
+	system("pause");
+	return 0;
+}
