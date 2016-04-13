@@ -55,6 +55,13 @@ public:
 	{}
 };
 
+template <class T>
+void area()
+{
+	T a;
+	a.vector();
+}
+
 int main()
 {
 	Vector v;
