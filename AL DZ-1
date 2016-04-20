@@ -1,0 +1,278 @@
+#include <iostream>
+#include <cstdlib>
+
+class object
+{
+public:
+	int value;
+	int key;
+};
+
+class Multimap
+{
+private:
+	object * obj;
+	int length;
+	int maxlen;
+public:
+	Multimap()
+		: length(0), maxlen(0)
+	{}
+	Multimap(Multimap &a)
+	{
+		length = a.length;
+		obj = a.obj;
+		maxlen = a.maxlen;
+		if (maxlen < length)
+			maxlen = length;
+	}
+	object begin()
+	{
+		return obj[0];
+	}
+	const object cbegin()
+	{
+		return obj[0];
+	}
+	object end()
+	{
+		return obj[(length - 1)];
+	}
+	const object cend()
+	{
+		return obj[(length - 1)];
+	}
+	void clear()
+	{
+		obj = {};
+		free(obj);
+	}
+	int count(int k)
+	{
+		int a;
+		for (int i = 0; i < length; i++)
+		{
+			if (obj[i].key == k)
+				a++;
+		}
+		return a;
+	}
+	void reverse()
+	{
+		object a;
+		a = obj[0];
+		for (int i = 0; i < (length - 1); i++)
+		{
+			obj[i] = obj[i + 1];
+		}
+		obj[(length-1)] = a;
+	}
+	object rbegin()
+	{
+		reverse();
+		return obj[0];
+	}
+	const object crbegin()
+	{
+		reverse();
+		return obj[0];
+	}
+	object rend()
+	{
+		reverse();
+		return obj[(length - 1)];
+	}
+	const object crend()
+	{
+		reverse();
+		return obj[(length - 1)];
+	}
+	object emplace(int i)
+	{
+		return obj[i];
+	}
+	object emplace_hint(int i)
+	{
+		return obj[i];
+	}
+	bool check()
+	{
+		if (obj == nullptr)
+			return true;
+		else false;
+	}
+	char* ccheck()
+	{
+		if (obj == nullptr)
+			return "Clear";
+		else "Have elements";
+	}
+	int* equal_range(int k)
+	{
+		int * a;
+		int count = 0;
+		for (int i = 0; i < length; i++)
+		{
+			if (obj[i].key == k)
+			{
+				a[count] = i;
+				count++;
+			}
+		}
+		return a;
+	}
+	object* shift(int a, int b, object* &obj)
+	{
+		object* newobj;
+		newobj = (object*)malloc((b - 1)*sizeof(object));
+		for (a; a < (b - 1); a++)
+		{
+			newobj[a] = obj[a + 1];
+		}
+		return newobj;
+	}
+	void erase(int * point, int len)
+	{
+		for (int i = 0; i < len; i++)
+		{
+			for (int j = 0; j < len; j++)
+			if (i == point[j])
+				shift(i, length - j, obj);
+		}
+	}
+	void erase(int k)
+	{
+		int * a;
+		int count = 0;
+		for (int i = 0; i < length; i++)
+		{
+			if (obj[i].key == k)
+			{
+				obj[i] = obj[i+1];
+				a[count] = i;
+				count++;
+			}
+		}
+		for (int i = 0; i < (length - count); i++)
+		{
+			for (int j = 0; j < count; j++)
+			if (i == a[j])
+			{
+				obj[i] = obj[i + 1];
+				int r = i + 1;
+				shift(r, length - count, obj);
+			}
+		}
+	}
+	object find(int k)
+	{
+		int i;
+		for (i = 0; i < length; i++)
+		{
+			if (obj[i].key == k)
+				goto over;
+		}
+	over:
+		return obj[i];
+	}
+	void set(object* &a, int n)
+	{
+		for (int i = length; i < length + n; i++)
+		{
+			obj[i] = a[i - length];
+		}
+	}
+	void key_comp()
+	{
+		object secret;
+		for (int i = 0; i < length - 1; i++)
+		{
+			for (int j = 0; j < length - 2; i++)
+			{
+				if (obj[j].key > obj[j + 1].key)
+				{
+					secret = obj[j];
+					obj[j] = obj[j + 1];
+					obj[j + 1] = secret;
+				}
+			}
+		}
+		if (maxlen < length)
+			maxlen = length;
+	}
+	object lower_bound(int k)
+	{
+		int i;
+		for (i = 0; i < length; i++)
+		{
+			if (obj[i].key >= k)
+				goto over;
+		}
+	over:
+		return obj[i];
+	}
+	int max_size()
+	{
+		return maxlen;
+	}
+	int size()
+	{
+		return length;
+	}
+	void swap(Multimap &a)
+	{
+		int slength, smaxlen, count;
+		object * sobj;
+		slength = length;
+		length = a.length;
+		a.length = slength;
+		smaxlen = maxlen;
+		maxlen = a.maxlen;
+		a.maxlen = smaxlen;
+		if (length < a.length)
+			count = a.length;
+		if (length > a.length)
+			count = length;
+		for (int i = 0; i < count; i++)
+		{
+			if (length < a.length)
+				length++;
+			if (length > a.length)
+				a.length++;
+		}
+		for (int i = 0; i < length; i++)
+		{
+			sobj[i] = obj[i];
+			obj[i] = a.obj[i];
+			a.obj[i] = obj[i];
+		}
+	}
+	object upper_bound(int k)
+	{
+		int i;
+		for (i = 0; i < length; i++)
+		{
+			if (obj[i].key > k)
+				goto over;
+		}
+	over:
+		return obj[i];
+	}
+	int* value_comp()
+	{
+		int* a;
+		for (int i = 0; i < length; i++)
+		{
+			a[i] = obj[i].key;
+		}
+		return a;
+	}
+	Multimap& operator= (Multimap& a)
+	{
+		this->length = a.length;
+		this->maxlen = a.maxlen;
+		for (int i = 0; i < length; i++)
+			this->obj[i] = a.obj[i];
+	}
+	~Multimap(){}
+};
