@@ -6,6 +6,13 @@ class object
 public:
 	int value;
 	int key;
+	bool operator==(object &a)
+	{
+		if (this->key == a.key || this->value == a.value)
+			return 1;
+		else
+			return 0;
+	}
 };
 
 class Multimap
@@ -26,25 +33,17 @@ public:
 		if (maxlen < length)
 			maxlen = length;
 	}
-	object begin()
+	object firstobj()
 	{
 		return obj[0];
 	}
-	const object cbegin()
-	{
-		return obj[0];
-	}
-	object end()
-	{
-		return obj[(length - 1)];
-	}
-	const object cend()
+	object lastobj()
 	{
 		return obj[(length - 1)];
 	}
 	void clear()
 	{
-		obj = {};
+		//obj = {};
 		free(obj);
 	}
 	int count(int k)
@@ -67,41 +66,33 @@ public:
 		}
 		obj[(length-1)] = a;
 	}
-	object rbegin()
+	/*object rfirstobj()
 	{
 		reverse();
 		return obj[0];
 	}
-	const object crbegin()
-	{
-		reverse();
-		return obj[0];
-	}
-	object rend()
+	object rlastobj()
 	{
 		reverse();
 		return obj[(length - 1)];
-	}
-	const object crend()
-	{
-		reverse();
-		return obj[(length - 1)];
-	}
+	}*/
 	object emplace(int i)
 	{
 		return obj[i];
 	}
-	object emplace_hint(int i)
+	int emplace_hint(object &a)
 	{
-		return obj[i];
+		for (int i = 0; i < length; i++)
+			if ((a == obj[i]) == 1)
+				return i;
 	}
-	bool check()
+	bool checkspace()
 	{
 		if (obj == nullptr)
 			return true;
 		else false;
 	}
-	char* ccheck()
+	char* ccheckspace()
 	{
 		if (obj == nullptr)
 			return "Clear";
@@ -123,8 +114,7 @@ public:
 	}
 	object* shift(int a, int b, object* &obj)
 	{
-		object* newobj;
-		newobj = (object*)malloc((b - 1)*sizeof(object));
+		object* newobj = new object[b-1];
 		for (a; a < (b - 1); a++)
 		{
 			newobj[a] = obj[a + 1];
@@ -170,10 +160,8 @@ public:
 		for (i = 0; i < length; i++)
 		{
 			if (obj[i].key == k)
-				goto over;
+				return obj[i];
 		}
-	over:
-		return obj[i];
 	}
 	void set(object* &a, int n)
 	{
@@ -206,10 +194,8 @@ public:
 		for (i = 0; i < length; i++)
 		{
 			if (obj[i].key >= k)
-				goto over;
+				return obj[i];
 		}
-	over:
-		return obj[i];
 	}
 	int max_size()
 	{
@@ -253,10 +239,8 @@ public:
 		for (i = 0; i < length; i++)
 		{
 			if (obj[i].key > k)
-				goto over;
+				return obj[i];
 		}
-	over:
-		return obj[i];
 	}
 	int* value_comp()
 	{
@@ -274,5 +258,8 @@ public:
 		for (int i = 0; i < length; i++)
 			this->obj[i] = a.obj[i];
 	}
-	~Multimap(){}
+	~Multimap()
+	{
+		free(obj);
+	}
 };
