@@ -1,0 +1,220 @@
+#include <iostream>
+using namespace std;
+
+class HMI          //higher military institutions
+{
+private:
+	char name[32], information[512];
+public:
+	HMI()
+	{}
+	void set()
+	{
+		cout << "Enter name of Higher military institutions: ";
+		cin >> name;
+		cout << "Enter information about Higher military institutions: ";
+		cin >> information;
+	}
+	void info()
+	{
+		cout << name << endl << information << endl;
+	}
+	
+	~HMI()
+	{}
+};
+
+class Script       //conscripts
+{
+private:
+	char name[32], rank[16], information[512];
+	int dleft, dpass;
+public:
+	Script()
+	{}
+	void set()
+	{
+		cout << "Enter name of conscript: ";
+		cin >> name;
+		cout << "Enter rank: ";
+		cin >> rank;
+		cout << "Enter information about this conscript: ";
+		cin >> information;
+		cout << "Enter how many days pass in army: ";
+		cin >> dpass;
+		cout << "Enter how many days left in army: ";
+		cin >> dleft;
+	}
+	void info()
+	{
+		cout << name << endl << rank << endl << information << "\nDays pass: " << dpass << "\nDays left: " << dleft << endl;
+	}
+	
+	~Script()
+	{}
+};
+
+class Contract     //contractors
+{
+private:
+	char name[32], rank[16], information[512];
+	int dleft, dpass;
+public:
+	Contract()
+	{}
+	void set()
+	{
+		cout << "Enter name of contractor: ";
+		cin >> name;
+		cout << "Enter rank: ";
+		cin >> rank;
+		cout << "Enter information about this contractor: ";
+		cin >> information;
+		cout << "Enter how many days pass in army: ";
+		cin >> dpass;
+		cout << "Enter how many days left in army: ";
+		cin >> dleft;
+	}
+	void info()
+	{
+		cout << name << endl << rank << endl << information <<"\nDays pass: " << dpass <<"\nDays left: " << dleft << endl;
+	}
+
+	~Contract()
+	{}
+};
+
+class Munit        //Military unit
+{
+private:
+	char name[32];
+	HMI * hmi;
+	Script * s;
+	Contract * c;
+	int number[3];
+public:
+	Munit()
+	{}
+	void set(int nhmi, int nconscripts, int ncontractors)
+	{
+		cout << "Enter name of military unit: ";
+		cin >> name;
+		hmi = new HMI[nhmi];
+		s = new Script[nconscripts];
+		c = new Contract[ncontractors];
+		number[1] = nhmi;
+		number[2] = nconscripts;
+		number[3] = ncontractors;
+	}
+	void info()
+	{
+		cout << "Number of HMI: " << number[1] << endl;
+		cout << "Number of conscripts: " << number[2] << endl;
+		cout << "Number of contractors: " << number[3] << endl;
+	}
+	void fullinfo()
+	{
+		this->info();
+		this->hmi->info();
+		this->s->info();
+		this->c->info();
+	}
+
+	~Munit()
+	{
+		this->hmi->~HMI();
+		this->s->~Script();
+		this->c->~Contract();
+	}
+};
+
+class Mbase        //Military base
+{
+private:
+	char name[32];
+	Munit * munit;
+	int number;
+public:
+	Mbase()
+	{}
+	void set(int nmunit)
+	{
+		cout << "Enter name of military base: ";
+		cin >> name;
+		munit = new Munit[nmunit];
+		number = nmunit;
+	}
+	void info()
+	{
+		cout << "Number of military units" << number << endl;
+	}
+	void fullinfo()
+	{
+		this->info();
+		this->munit->fullinfo();
+	}
+
+	~Mbase()
+	{
+		this->munit->~Munit();
+	}
+};
+
+class County
+{
+private:
+	char name[32];
+	Mbase * base;
+	int number;
+public:
+	County()
+	{}
+	void set(int nbase)
+	{
+		base = new Mbase[nbase];
+		number = nbase;
+	}
+	void info()
+	{
+		cout << "Number of military bases" << number << endl;
+	}
+	void fullinfo()
+	{
+		this->info();
+		this->base->fullinfo();
+	}
+
+	~County()
+	{
+		this->base->~Mbase();
+	}
+};
+
+class Admin                  //Main class
+{
+private:
+	County * county;
+	int number;
+public:
+	Admin()
+	{}
+	void set(int ncounty)
+	{
+		county = new County[ncounty];
+		number = ncounty;
+	}
+	void info()
+	{
+		cout << "Number of military county" << number << endl;
+	}
+	void fullinfo()
+	{
+		this->info();
+		this->county->fullinfo();
+	}
+
+	~Admin()
+	{
+		this->county->~County();
+	}
+};
