@@ -13,7 +13,7 @@ public:
 		: a_(a), key_(key)
 	{}
 	~Secret_unit()
-	{	}
+	{}
 };
 
 class Secret_box
