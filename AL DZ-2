@@ -19,7 +19,7 @@ public:
 	{
 		cout << name << endl << information << endl;
 	}
-	
+
 	~HMI()
 	{}
 };
@@ -49,7 +49,7 @@ public:
 	{
 		cout << name << endl << rank << endl << information << "\nDays pass: " << dpass << "\nDays left: " << dleft << endl;
 	}
-	
+
 	~Script()
 	{}
 };
@@ -77,14 +77,14 @@ public:
 	}
 	void info()
 	{
-		cout << name << endl << rank << endl << information <<"\nDays pass: " << dpass <<"\nDays left: " << dleft << endl;
+		cout << name << endl << rank << endl << information << "\nDays pass: " << dpass << "\nDays left: " << dleft << endl;
 	}
 
 	~Contract()
 	{}
 };
 
-class Munit        //Military unit
+class Munit        //Military unit                                           [2]
 {
 private:
 	char name[32];
@@ -95,16 +95,70 @@ private:
 public:
 	Munit()
 	{}
-	void set(int nhmi, int nconscripts, int ncontractors)
+	void set()
 	{
+		int vibor, i1;
+		this->info();
+		cout << "Set new data" << endl;
+		cin >> name;
+		cout << "Contractors or conscripts or higher military institutions (1/2/3)" << endl;
+		cin >> vibor;
+		cout << "Enter number of unit: ";
+		cin >> i1;
+		switch (vibor)
+		{
+		case 1:
+		{
+				  this->c[i1].info();
+				  cout << "Set new data" << endl;
+				  this->c[i1].set();
+		}
+		case 2:
+		{
+				  this->s[i1].info();
+				  cout << "Set new data" << endl;
+				  this->s[i1].set();
+		}
+		case 3:
+		{
+				  this->hmi[i1].info();
+				  cout << "Set new data" << endl;
+				  this->hmi[i1].set();
+		}
+		}
+	}
+	void setnew()
+	{
+		char doornot;
+		int nhmi, nconscripts, ncontractors;
 		cout << "Enter name of military unit: ";
 		cin >> name;
+		cout << "Enter number of contractors : ";
+		cin >> ncontractors;
+		cout << "Enter number of Conscripts : ";
+		cin >> nconscripts;
+		cout << "Enter number of higher military institutions : ";
+		cin >> nhmi;
 		hmi = new HMI[nhmi];
 		s = new Script[nconscripts];
 		c = new Contract[ncontractors];
-		number[1] = nhmi;
-		number[2] = nconscripts;
-		number[3] = ncontractors;
+		cout << "Do you want set info about units now? Enter 'yes'" << endl;
+		cin >> doornot;
+		if (doornot == 'yes')
+		{
+			for (int i = 0; i < ncontractors; i++)
+			{
+				this->c[i].set();
+			}
+			for (int i = 0; i < nconscripts; i++)
+			{
+				this->s[i].set();
+			}
+			for (int i = 0; i < nhmi; i++)
+			{
+				this->hmi[i].set();
+			}
+		}
 	}
 	void info()
 	{
@@ -128,7 +182,7 @@ public:
 	}
 };
 
-class Mbase        //Military base
+class Mbase       //Military base                                            [3]
 {
 private:
 	char name[32];
@@ -137,12 +191,27 @@ private:
 public:
 	Mbase()
 	{}
-	void set(int nmunit)
+	void set(int i2)
 	{
-		cout << "Enter name of military base: ";
+		this->info();
+		cout << "Set new data" << endl;
 		cin >> name;
+		this->munit[i2].set();
+	}
+	void setnew()
+	{
+		int nmunit;
+		cout << "Enter name of base: ";
+		cin >> name;
+		cout << "Enter how much of base: ";
+		cin >> nmunit;
 		munit = new Munit[nmunit];
 		number = nmunit;
+		int n1;
+		cout << "Enter number of military unit : ";
+		cin >> n1;
+		this->munit[n1].setnew();
+
 	}
 	void info()
 	{
@@ -160,7 +229,7 @@ public:
 	}
 };
 
-class County
+class County                                                              // [4]
 {
 private:
 	char name[32];
@@ -169,10 +238,29 @@ private:
 public:
 	County()
 	{}
-	void set(int nbase)
+	void set(int i3)
 	{
+		this->info();
+		cout << "Set new data" << endl;
+		cin >> name;
+		int i2;
+		cout << "Enter number of military unit in base#" << i3 << endl;
+		cin >> i2;
+		this->base[i3].set(i2);
+	}
+	void setnew()
+	{
+		int nbase;
+		cout << "Enter name of county: ";
+		cin >> name;
+		cout << "Enter how much of base: ";
+		cin >> nbase;
 		base = new Mbase[nbase];
 		number = nbase;
+		int n2;
+		cout << "Enter number of base: ";
+		cin >> n2;
+		this->base[n2].setnew();
 	}
 	void info()
 	{
@@ -190,18 +278,31 @@ public:
 	}
 };
 
-class Admin                  //Main class
+class Admin         //Main class                                             [5]
 {
-private:
+public:
 	County * county;
 	int number;
-public:
 	Admin()
 	{}
-	void set(int ncounty)
+	void set(int i4)
 	{
+		int i3;
+		cout << "Enter number of base in county#" << i4 << endl;
+		cin >> i3;
+		this->county[i4].set(i3);
+	}
+	void setnew()
+	{
+		int ncounty;
+		cout << "Enter how mach of county: ";
+		cin >> ncounty;
 		county = new County[ncounty];
 		number = ncounty;
+		int n3;
+		cout << "Enter number of county: ";
+		cin >> n3;
+		this->county[n3].setnew();
 	}
 	void info()
 	{
@@ -212,9 +313,74 @@ public:
 		this->info();
 		this->county->fullinfo();
 	}
-
+	void write()
+	{}
+	void read()
+	{}
 	~Admin()
 	{
 		this->county->~County();
 	}
 };
+
+enum { i, s, w, r, e };
+
+int main()
+{
+	Admin * A;
+	A = new Admin();
+	char count, count_;
+	cout << "Steps:" << endl << "f - f information" << endl << "s - set new data" << endl;
+	cout << "w - write on file" << endl << "r - read the file" << endl << "e - exit" << endl;
+	while (true)
+	{
+		cout << "Enter next step" << endl;
+		cin >> count;
+		switch (count)
+		{
+			case 'f':
+			{
+						A[0].fullinfo(); break;
+			}
+			case 's':
+			{
+						cout << "Change data or creat new data?(c/n)" << endl;
+						cin >> count_;
+						switch (count_)
+						{
+							case 'c':
+							{
+										int i4;
+										cout << "Enter number of this county: ";
+										cin >> i4;
+										A[0].set(i4);
+							}
+							case 'n':
+							{
+										int n4;
+										cout << "Enter how mach of county: ";
+										cin >> n4;
+										A[0].setnew();
+							}
+						}
+
+			}
+			case 'w':
+			{
+						A[0].write(); break;
+			}
+			case 'r':
+			{
+						A[0].read(); break;
+			}
+			case 'e':
+			{
+						goto exit;
+			}
+
+		}
+	};
+	exit:
+	system("pause");
+	return 0;
+}
