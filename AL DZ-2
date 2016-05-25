@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-class HMI          //higher military institutions
+class HMI          //Higher military institutions
 {
 private:
 	char name[32], information[512];
@@ -24,7 +24,7 @@ public:
 	{}
 };
 
-class Script       //conscripts
+class Script       //Conscripts
 {
 private:
 	char name[32], rank[16], information[512];
@@ -54,7 +54,7 @@ public:
 	{}
 };
 
-class Contract     //contractors
+class Contract     //Contractors
 {
 private:
 	char name[32], rank[16], information[512];
@@ -111,19 +111,19 @@ public:
 		{
 				  this->c[i1].info();
 				  cout << "Set new data" << endl;
-				  this->c[i1].set();
+				  this->c[i1].set(); break;
 		}
 		case 2:
 		{
 				  this->s[i1].info();
 				  cout << "Set new data" << endl;
-				  this->s[i1].set();
+				  this->s[i1].set(); break;
 		}
 		case 3:
 		{
 				  this->hmi[i1].info();
 				  cout << "Set new data" << endl;
-				  this->hmi[i1].set();
+				  this->hmi[i1].set(); break;
 		}
 		}
 	}
@@ -280,9 +280,10 @@ public:
 
 class Admin         //Main class                                             [5]
 {
-public:
+private:
 	County * county;
 	int number;
+public:
 	Admin()
 	{}
 	void set(int i4)
@@ -330,7 +331,7 @@ int main()
 	Admin * A;
 	A = new Admin();
 	char count, count_;
-	cout << "Steps:" << endl << "f - f information" << endl << "s - set new data" << endl;
+	cout << "Steps:" << endl << "f - full information" << endl << "s - set new data" << endl;
 	cout << "w - write on file" << endl << "r - read the file" << endl << "e - exit" << endl;
 	while (true)
 	{
@@ -353,14 +354,14 @@ int main()
 										int i4;
 										cout << "Enter number of this county: ";
 										cin >> i4;
-										A[0].set(i4);
+										A[0].set(i4); break;
 							}
 							case 'n':
 							{
 										int n4;
 										cout << "Enter how mach of county: ";
 										cin >> n4;
-										A[0].setnew();
+										A[0].setnew(); break;
 							}
 						}
 
