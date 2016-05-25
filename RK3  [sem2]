@@ -1,0 +1,198 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Secret_unit
+{
+public:
+	int a_;
+	int key_;
+	Secret_unit()
+	{}
+	Secret_unit(int a, int key)
+		: a_(a), key_(key)
+	{}
+	~Secret_unit()
+	{	}
+};
+
+class Secret_box
+{
+private:
+	Secret_unit * s;
+	int n_;
+public:
+	Secret_box()
+	{}
+	void set(int n)
+	{
+		s = new Secret_unit[n];
+		for (int i = 0; i < n; i++)
+		{
+			cout << "Enter data for element #" << i << endl;
+			cin >> s[i].a_;
+			s[i].key_ = rand() %101;
+			n_ = n;
+		}
+	}
+	void autoset(int n)
+	{
+		s = new Secret_unit[n];
+		for (int i = 0; i < n; i++)
+		{
+			cout << "+1" << endl;
+			s[i].a_ = rand() %101;
+			s[i].key_ = rand() %101;
+			n_ = n;
+		}
+	}
+	void sorting_all_key_l()
+	{
+		for (int i = 0; i < n_; i++)
+		{
+			for (int j = 0; j < n_ - 1; j++)
+			{
+				if (s[j].key_ > s[j + 1].key_)
+				{
+					int key, a;
+					a = s[j + 1].a_;
+					key = s[j + 1].key_;
+					s[j + 1].a_ = s[j].a_;
+					s[j + 1].key_ = s[j].key_;
+					s[j].a_ = a;
+					s[j].key_ = key;
+				}
+			}
+		}
+	}
+	void sorting_all_key_h()
+	{
+		for (int i = 0; i < n_; i++)
+		{
+			for (int j = 0; j < n_ - 1; j++)
+			{
+				if (s[j].key_ < s[j + 1].key_)
+				{
+					int key, a;
+					a = s[j + 1].a_;
+					key = s[j + 1].key_;
+					s[j + 1].a_ = s[j].a_;
+					s[j + 1].key_ = s[j].key_;
+					s[j].a_ = a;
+					s[j].key_ = key;
+				}
+			}
+		}
+	}
+	void sorting_all_data_l()
+	{
+		for (int i = 0; i < n_; i++)
+		{
+			for (int j = 0; j < n_ - 1; j++)
+			{
+				if (s[j].a_ > s[j + 1].a_)
+				{
+					int key, a;
+					a = s[j + 1].a_;
+					key = s[j + 1].key_;
+					s[j + 1].a_ = s[j].a_;
+					s[j + 1].key_ = s[j].key_;
+					s[j].a_ = a;
+					s[j].key_ = key;
+				}
+			}
+		}
+	}
+	void sorting_all_data_h()
+	{
+		for (int i = 0; i < n_; i++)
+		{
+			for (int j = 0; j < n_ - 1; j++)
+			{
+				if (s[j].a_ < s[j + 1].a_)
+				{
+					int key, a;
+					a = s[j + 1].a_;
+					key = s[j + 1].key_;
+					s[j + 1].a_ = s[j].a_;
+					s[j + 1].key_ = s[j].key_;
+					s[j].a_ = a;
+					s[j].key_ = key;
+				}
+			}
+		}
+	}
+	void serch_key(int key)
+	{
+		int count_ = 0;
+		for (int i = 0; i < n_; i++)
+		{
+			if(key == s[i].key_)
+			{
+				cout << "Element #" << i << " : data = " << s[i].a_ << " , key = " << s[i].key_ << endl; 
+				count_++;
+			}
+		}
+		if(count_ == 0)
+		cout << "Element with this key not yet in box";
+		cout << endl;
+	}
+	void serch_data(int data)
+	{
+		int count_ = 0;
+		for (int i = 0; i < n_; i++)
+		{
+			if(data == s[i].a_)
+			{
+				cout << "Element #" << i << " : data = " << s[i].a_ << " , key = " << s[i].key_ << endl; 
+				count_++;
+			}
+		}
+		if(count_ == 0)
+		cout << "Element with this key not yet in box";
+		cout << endl;
+	}
+
+	void write()
+	{
+		for (int i = 0; i < n_ ; i++)
+		{
+			cout << "Element #" << i << " : data = " << s[i].a_ << " , key = " << s[i].key_ << endl;
+		}
+		cout << endl;
+	}
+	~Secret_box()
+	{
+		for (int i = 0; i < n_; i++)
+		{
+			this->s[i].~Secret_unit();
+		}
+		cout << "-" << n_ << endl << "RAM is cleared" << endl << "Program is over" << endl;;
+	}
+};
+
+int main()
+{
+	int key = 0, data = 0;
+	Secret_box * happy;
+	happy = new Secret_box;
+	happy[0].autoset(10);
+	happy[0].write();
+	happy[0].sorting_all_data_l();
+	happy[0].write();
+	happy[0].sorting_all_data_h();
+	happy[0].write();
+	happy[0].sorting_all_key_l();
+	happy[0].write();
+	happy[0].sorting_all_key_h();
+	happy[0].write();
+	cout << "Enter key number (for example - 22 )" << endl;
+	cin >> key;
+	happy[0].serch_key(key);
+	cout << "Enter data (for example - 41 )" << endl;
+	cin >> data;
+	happy[0].serch_data(data);
+	happy[0].~Secret_box();
+	system("pause");
+	return 0;
+}
