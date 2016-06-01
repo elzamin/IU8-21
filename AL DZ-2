@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 class HMI          //Higher military institutions
@@ -19,7 +20,11 @@ public:
 	{
 		cout << name << endl << information << endl;
 	}
-
+	void write()
+	{
+		ofstream f1("Data.txt", ios_base::app);
+		f1 << name << endl << information << endl;
+	}
 	~HMI()
 	{}
 };
@@ -49,7 +54,11 @@ public:
 	{
 		cout << name << endl << rank << endl << information << "\nDays pass: " << dpass << "\nDays left: " << dleft << endl;
 	}
-
+	void write()
+	{
+		ofstream f1("Data.txt", ios_base::app);
+		f1 << name << endl << rank << endl << information << "\nDays pass: " << dpass << "\nDays left: " << dleft << endl;
+	}
 	~Script()
 	{}
 };
@@ -79,7 +88,11 @@ public:
 	{
 		cout << name << endl << rank << endl << information << "\nDays pass: " << dpass << "\nDays left: " << dleft << endl;
 	}
-
+	void write()
+	{
+		ofstream f1("Data.txt", ios_base::app);
+		f1 << name << endl << rank << endl << information << "\nDays pass: " << dpass << "\nDays left: " << dleft << endl;
+	}
 	~Contract()
 	{}
 };
@@ -91,7 +104,7 @@ private:
 	HMI * hmi;
 	Script * s;
 	Contract * c;
-	int number[3];
+	int nhmi, nconscripts, ncontractors;
 public:
 	Munit()
 	{}
@@ -107,44 +120,43 @@ public:
 		cin >> i1;
 		switch (vibor)
 		{
-		case 1:
-		{
-				  this->c[i1].info();
-				  cout << "Set new data" << endl;
-				  this->c[i1].set(); break;
-		}
-		case 2:
-		{
-				  this->s[i1].info();
-				  cout << "Set new data" << endl;
-				  this->s[i1].set(); break;
-		}
-		case 3:
-		{
-				  this->hmi[i1].info();
-				  cout << "Set new data" << endl;
-				  this->hmi[i1].set(); break;
-		}
+			case 1:
+			{
+					  this->c[i1].info();
+					  cout << "Set new data" << endl;
+					  this->c[i1].set(); break;
+			}
+			case 2:
+			{
+					  this->s[i1].info();
+					  cout << "Set new data" << endl;
+					  this->s[i1].set(); break;
+			}
+			case 3:
+			{
+					  this->hmi[i1].info();
+					  cout << "Set new data" << endl;
+					  this->hmi[i1].set(); break;
+			}
 		}
 	}
 	void setnew()
 	{
 		char doornot;
-		int nhmi, nconscripts, ncontractors;
 		cout << "Enter name of military unit: ";
 		cin >> name;
-		cout << "Enter number of contractors : ";
-		cin >> ncontractors;
-		cout << "Enter number of Conscripts : ";
-		cin >> nconscripts;
-		cout << "Enter number of higher military institutions : ";
-		cin >> nhmi;
+		cout << "Enter number of contractors: ";
+		cin >> this->ncontractors;
+		cout << "Enter number of Conscripts: ";
+		cin >> this->nconscripts;
+		cout << "Enter number of higher military institutions: ";
+		cin >> this->nhmi;
 		hmi = new HMI[nhmi];
 		s = new Script[nconscripts];
 		c = new Contract[ncontractors];
-		cout << "Do you want set info about units now? Enter 'yes'" << endl;
+		cout << "Do you want set info about units now? Enter 'y'" << endl;
 		cin >> doornot;
-		if (doornot == 'yes')
+		if (doornot == 'y')
 		{
 			for (int i = 0; i < ncontractors; i++)
 			{
@@ -162,18 +174,45 @@ public:
 	}
 	void info()
 	{
-		cout << "Number of HMI: " << number[1] << endl;
-		cout << "Number of conscripts: " << number[2] << endl;
-		cout << "Number of contractors: " << number[3] << endl;
+		cout << "Amount of HMI: " << nhmi << endl;
+		cout << "Amount of conscripts: " << nconscripts << endl;
+		cout << "Amount of contractors: " << ncontractors << endl;
 	}
 	void fullinfo()
 	{
 		this->info();
-		this->hmi->info();
-		this->s->info();
-		this->c->info();
+		for (int i = 0; i < nhmi; i++)
+		{
+			this->hmi[i].info();
+		}
+		for (int i = 0; i < nhmi; i++)
+		{
+			this->s[i].info();
+		}
+		for (int i = 0; i < nhmi; i++)
+		{
+			this->c[i].info();
+		}
 	}
-
+	void write()
+	{
+		ofstream f1("Data.txt", ios_base::app);
+		f1 << "Amount of HMI: " << nhmi << endl;
+		f1 << "Amount of conscripts: " << nconscripts << endl;
+		f1 << "Amount of contractors: " << ncontractors << endl;
+		for (int i = 0; i < nhmi; i++)
+		{
+			this->hmi[i].write();
+		}
+		for (int i = 0; i < nhmi; i++)
+		{
+			this->s[i].write();
+		}
+		for (int i = 0; i < nhmi; i++)
+		{
+			this->c[i].write();
+		}
+	}
 	~Munit()
 	{
 		this->hmi->~HMI();
@@ -203,26 +242,37 @@ public:
 		int nmunit;
 		cout << "Enter name of base: ";
 		cin >> name;
-		cout << "Enter how much of base: ";
+		cout << "Enter how much of military base: ";
 		cin >> nmunit;
 		munit = new Munit[nmunit];
 		number = nmunit;
 		int n1;
-		cout << "Enter number of military unit : ";
+		cout << "Enter number of military unit: ";
 		cin >> n1;
 		this->munit[n1].setnew();
 
 	}
 	void info()
 	{
-		cout << "Number of military units" << number << endl;
+		cout << "Amount of military units: " << number << endl;
 	}
 	void fullinfo()
 	{
 		this->info();
-		this->munit->fullinfo();
+		for (int i = 0; i < number; i++)
+		{
+			this->munit[i].fullinfo();
+		}
 	}
-
+	void write()
+	{
+		ofstream f1("Data.txt", ios_base::app);
+		f1 << "Amount of military units: " << number << endl;
+		for (int i = 0; i < number; i++)
+		{
+			this->munit[i].write();
+		}
+	}
 	~Mbase()
 	{
 		this->munit->~Munit();
@@ -244,7 +294,7 @@ public:
 		cout << "Set new data" << endl;
 		cin >> name;
 		int i2;
-		cout << "Enter number of military unit in base#" << i3 << endl;
+		cout << "Enter number of military unit in base# " << i3 << endl;
 		cin >> i2;
 		this->base[i3].set(i2);
 	}
@@ -264,14 +314,25 @@ public:
 	}
 	void info()
 	{
-		cout << "Number of military bases" << number << endl;
+		cout << "Amount of military bases: " << number << endl;
 	}
 	void fullinfo()
 	{
 		this->info();
-		this->base->fullinfo();
+		for (int i = 0; i < number; i++)
+		{
+			this->base[i].fullinfo();
+		}
 	}
-
+	void write()
+	{
+		ofstream f1("Data.txt", ios_base::app);
+		f1 << "Amount of military bases: " << number << endl;
+		for (int i = 0; i < number; i++)
+		{
+			this->base[i].write();
+		}
+	}
 	~County()
 	{
 		this->base->~Mbase();
@@ -282,14 +343,14 @@ class Admin         //Main class                                             [5]
 {
 private:
 	County * county;
-	int number;
+	int number = 0;
 public:
 	Admin()
 	{}
 	void set(int i4)
 	{
 		int i3;
-		cout << "Enter number of base in county#" << i4 << endl;
+		cout << "Enter number of base in county# " << i4 << endl;
 		cin >> i3;
 		this->county[i4].set(i3);
 	}
@@ -307,15 +368,25 @@ public:
 	}
 	void info()
 	{
-		cout << "Number of military county" << number << endl;
+		cout << "Amount of military county: " << number << endl;
 	}
 	void fullinfo()
 	{
-		this->info();
-		this->county->fullinfo();
+		cout << "Amount of military county: " << number << endl;
+		for (int i = 0; i < number; i++)
+		{
+			this->county[i].fullinfo();
+		}
 	}
 	void write()
-	{}
+	{
+		ofstream f1("Data.txt", ios_base::app);
+		f1 << "Number of military county: " << number << endl;;
+		for (int i = 0; i < number; i++)
+		{
+			this->county[i].write();
+		}
+	}
 	void read()
 	{}
 	~Admin()
@@ -324,16 +395,15 @@ public:
 	}
 };
 
-enum { i, s, w, r, e };
-
 int main()
 {
+	ofstream f1("Data.txt", ios_base::out);
 	Admin * A;
 	A = new Admin();
 	char count, count_;
-	cout << "Steps:" << endl << "f - full information" << endl << "s - set new data" << endl;
+	cout << "Steps:" << endl << "f - full information" << endl << "c - change data" << endl << "n - set new data" << endl;
 	cout << "w - write on file" << endl << "r - read the file" << endl << "e - exit" << endl;
-	while (true)
+	for (int unlimited = 0; unlimited < 999; unlimited++)
 	{
 		cout << "Enter next step" << endl;
 		cin >> count;
@@ -343,28 +413,16 @@ int main()
 			{
 						A[0].fullinfo(); break;
 			}
-			case 's':
+			case 'c':
 			{
-						cout << "Change data or creat new data?(c/n)" << endl;
-						cin >> count_;
-						switch (count_)
-						{
-							case 'c':
-							{
-										int i4;
-										cout << "Enter number of this county: ";
-										cin >> i4;
-										A[0].set(i4); break;
-							}
-							case 'n':
-							{
-										int n4;
-										cout << "Enter how mach of county: ";
-										cin >> n4;
-										A[0].setnew(); break;
-							}
-						}
-
+						int i4;
+						cout << "Enter number of this county: ";
+						cin >> i4;
+						A[0].set(i4); break;
+			}
+			case 'n':
+			{
+						A[0].setnew(); break;
 			}
 			case 'w':
 			{
@@ -378,10 +436,10 @@ int main()
 			{
 						goto exit;
 			}
-
 		}
-	};
-	exit:
+	}
+exit:
+	f1.close();
 	system("pause");
 	return 0;
 }
