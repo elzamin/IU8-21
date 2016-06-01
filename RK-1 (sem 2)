@@ -1,0 +1,99 @@
+#include <iostream>
+using namespace std;
+
+class Obj
+{
+private:
+	char * key;
+	int data;
+public:
+	Obj()
+	{}
+	Obj(char * _char, int _int)
+		:key(_char), data(_int)
+	{}
+	Obj operator =(const Obj & a)
+	{
+		this->data = a.data;
+		this->key = a.key;
+	}
+	char * Key()
+	{
+		return key;
+	}
+	bool check (char * key)
+	{
+		if (this->key == key)
+			return true;
+		else return false;
+	}
+	void write()
+	{
+		cout << "key: " << this->key << ", data: " << this->data << endl;
+	}
+	~Obj()
+	{}
+};
+
+class TDict 
+{
+private:
+	Obj * obj;
+	int n;
+public:
+	TDict ()
+	{}
+	TDict (char * keys, int datas)
+	{
+		obj = new Obj(keys, datas);
+	}
+	TDict (char ** keys, int * datas, int amount)
+	{
+		for (int i = 0; i < amount; i++)
+		{
+			obj = new Obj[amount];
+			obj[i] = Obj(keys[i],datas[i]);
+		}
+	}
+	TDict (const TDict & a)
+	{
+		for (int i =0; i < a.n; i++)
+		{
+			obj[i] = a.obj[i];
+		}
+	}
+	TDict operator =(const TDict & a)
+	{
+		for (int i =0; i < a.n; i++)
+		{
+			this->obj[i] = a.obj[i];
+		}
+	}
+	~ TDict ()
+	{}
+	TDict operator +(const TDict & a)
+	{
+
+	}
+	TDict operator +=(const TDict & a)
+	{}
+	friend bool operator ==(const TDict & a, const TDict & b)
+	{
+		int k = 0, i;
+		for (i = 0; i < a.n; i++)
+			if(a.obj[i].check(b.obj[i].Key()))
+				k++;
+		if(k == i)
+			return true;
+		else return false;
+	}
+	int TDict::GetCountObjects() // статичный метод, возвращающий количество объектов типа TDict.
+	{
+		return this->n;
+	}
+	friend std::ostream & operator << (std::ostream &out, const TDict & a) // пример ниже
+	{
+		for (int i = 0; i < a.n; i++)
+			a.obj[i].write();
+	}
+};
