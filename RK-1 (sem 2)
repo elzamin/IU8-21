@@ -70,7 +70,10 @@ public:
 		}
 	}
 	~ TDict ()
-	{}
+	{
+		for(int i = 0; i < n; i++)
+			this->obj[i].~Obj();
+	}
 	TDict operator +(const TDict & a)
 	{
 
